@@ -20,20 +20,26 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        // $customers=DB::table('customers')->get();
-        $query = request()->all();
+       
+        // $query = request()->all();
 
-        if (isset($query['sort'])) {
-            $filedName =$query['sort'];
-            // $customers = Customer::orderby($filedName)->get();
-            $model = Customer::orderBy($filedName);
-        } else {
-            // $customers = Customer::all();
-            $model = Customer::orderBy('id');
-        }
-        $customers=$model->paginate(5);
-        return view('customers.index')
-            ->with(['x' => $customers]);
+        // if (isset($query['sort'])) {
+        //     $filedName =$query['sort'];
+           
+        //     $model = Customer::orderBy($filedName);
+        // } else {
+           
+        //     $model = Customer::orderBy('id');
+        // }
+        // $customers=$model->paginate(5);
+
+        // $customers = Customer::has('orders')->paginate(10); //แสดงเฉพาะ Customer ที่มี Order เท่านั้น
+        // return view('customers.index')
+        //     ->with(['x' => $customers]);
+
+        $customers = Customer::with('orders')->get();
+        return 'json';
+        // return response()->json($customers);
     }
 
     /**
@@ -92,9 +98,9 @@ class CustomerController extends Controller
     public function show($id)
     {
         $c = Customer::find($id);
-        // return $c->first_name;
-
         return view('customers.show')->with(['c' => $c]);
+
+        
     }
 
     /**
