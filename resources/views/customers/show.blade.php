@@ -7,13 +7,20 @@
 <p>Surname: {{$c->last_name}}</p>
 <p><img src="{{genderImages($c->gender) }}" alt=""></p>
 <hr>
+@foreach($c->orders as $o)
+    <p><strong>Order:{{$o->id}}</strong></p>
     <table class="table">
-    @foreach($c->orders as $o)
-        <tr>
-        <td>{{$o->order_date}}</td>
-        <td>{{$o->order_amount}}</td>
-        </tr>
+    @foreach ($o->orderItems as $o)
+        
+        
+            <tr>
+                <td>{{$o->product_id}}</td>
+                <td>{{$o->price}}</td>
+                <td>{{$o->qty}}</td>
+            </tr>
+       
+        
     @endforeach
-    </table>
+</table>
+@endforeach
 </div>
-@endsection
