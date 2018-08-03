@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use Gate;
 use Illuminate\Http\Request;
 use PHPUnit\Runner\Exception;
 
@@ -104,9 +105,15 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $c = Customer::find($id);
-        return view('customers.edit')
-            ->with(['c' => $c]);
+
+        if(gate::allows('customer-edit'))
+        {
+            $c = Customer::find($id);
+            return view('customers.edit')
+             ->with(['c' => $c]);
+        }else{
+            return 'You\ are not Authorize.';
+        }
     }
 
     /**

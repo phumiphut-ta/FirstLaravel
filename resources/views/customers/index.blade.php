@@ -38,11 +38,15 @@
     <td><img src="{{genderImages($c->gender)}}" alt=""></td>
     <td><a href="/customer/{{$c->id}}/edit" class="button is-warning">Edit</a></td>
     <td>
-    <form onsubmit="return confirm('Are you sure ???')" action="/customer/{{$c->id}}" method="post">
-        {{csrf_field()}}
-        {{method_field('DELETE')}}
-        <input type="submit" name="Delete" value="Deleted" class="button is-danger" id="">
-    </form>
+        @if(auth()->user()->can('customer-delete'))
+            <form onsubmit="return confirm('Are you sure ???')" action="/customer/{{$c->id}}" method="post">
+                {{csrf_field()}}
+                {{method_field('DELETE')}}
+                <input type="submit" name="Delete" value="Deleted" class="button is-danger" id="">
+            </form>
+        @else
+            &nbsp;
+        @endif
     </td>
     </tr>
     

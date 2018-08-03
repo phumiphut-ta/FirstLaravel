@@ -25,6 +25,30 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('customer-edit',function($user)
+        { 
+            //นิยามให้ User ใดสามารถได้สิทธิ แก้ไข Customer
+            if($user->email == 'admin@example.com') 
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        });
+        Gate::define('customer-delete',function($user)
+        {
+            if($user->email == 'admin@example.com')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        });
     }
+    
 }
